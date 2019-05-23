@@ -20,21 +20,22 @@
                     if(empty($a))
                         die("Bạn chưa nhập dữ liệu");
                     $str1=explode(",",$a);
-                    $ds=array();
                     foreach ($str1 as $item)
                     {
                         $str2=explode("-",$item);
-                        if(count($str2)<2)
+                        if(count($str2)!==2)
                             die("Input sai định dạng");
-                        if(!isset($str2[0]) || !is_numeric($str2[0]) || !isset($str2[1]) || !is_numeric($str2[1]))
+                        if(!is_numeric($str2[0]) || !is_numeric($str2[1]))
                             die("Input sai định dạng");
-                        echo "Các số nguyên tố có trong dãy trên là : ";
                         for($i=$str2[0] ; $i<$str2[1] ; $i++ )
                         {
+                            $array=array();
                             if(check($i))
                             {
-                               $ds[]=$i;
-                               echo $i.", ";
+                                array_push($array,$i);
+                                $kq=array_unique($array);
+                                foreach ($kq as $item)
+                                   echo  $item . ", ";
                             }
                         }
                     }

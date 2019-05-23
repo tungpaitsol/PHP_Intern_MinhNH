@@ -17,38 +17,36 @@
     <input type="submit" name="tinh" value="Tính">
 </form>
 <?php
-$kq = '';
-$x1 = '';
-$x2 = '';
-if (isset($_POST['tinh'])) {
-    $a = isset($_POST['a']) ? $_POST['a'] : '';
-    $b = isset($_POST['b']) ? $_POST['b'] : '';
-    $c = isset($_POST['c']) ? $_POST['c'] : '';
-    if ($a == '' || $b == '' || $c == '')
-        die("Bạn hãy nhập đầy đủ thông tin");
-    if (is_numeric($a) && is_numeric($b) && is_numeric($c)) {
-        if ($a == 0) {
-            if ($b == 0 && $c != 0)
-                echo "Phương trình vô nghiệm";
-            else {
-                die("Phương trình đã cho có 1 nghiệm x= " . (-$c / $b));
-            }
-        }
-        $delta = $b * $b - 4 * $a * $c;
-        $x1 = (-$b + sqrt($delta)) / (2 * $a);
-        $x2 = (-$b - sqrt($delta)) / (2 * $a);
-        if ($delta > 0) {
-            $kq = "Phương trình có 2 nghiệm phân biệt x1 =" . $x1 . ", x2 = " . $x2;
-        } else if ($delta == 0) {
-            $kq = "Phương trình có ngiệm kép x1 = x2 =" . $x1;
-        } else {
-            $kq = "Phương trình vô nghiệm";
-        }
-    } else {
-        $kq = "Input không đúng định dạng  .";
+$a = isset($_POST['a']) ? $_POST['a'] : '';
+$b = isset($_POST['b']) ? $_POST['b'] : '';
+$c = isset($_POST['c']) ? $_POST['c'] : '';
+if (isset($_POST['tinh']))
+{
+    if (!is_numeric($a) && !is_numeric($b) && !is_numeric($c))
+    {
+        die("Input không đúng định dạng");
+    }
+    else
+    {
+        echo ptb2($a,$b,$c);
     }
 }
-echo $kq;
+function ptb2($a,$b,$c)
+{
+    $delta = $b * $b - 4 * $a * $c;
+    if ($a == 0 && $b == 0 && $c == 0)
+        return "Phương trình có vô số nghiệm";
+    if ($a == 0 && $b == 0 && $c != 0)
+        return "Phương trình vô nghiệm";
+    if ($a == 0 && $b != 0 && $c != 0)
+        return "Phương trình có 1 nghiệm là " . (-$c / $b);
+    if($delta <0)
+        return "Phương trình vô nghiệm";
+    if($delta ==0)
+        return "Phương trình có nghiệm kép  x1= x2 = ". -$b/($a*2);
+    if($delta>0)
+        return "Phương trình có 2 nghiệm phân biệt x1 = ".(-$b + sqrt($delta)/(2*$a)) . "x2 = ".(-$b - sqrt($delta)/(2*$a));
+}
 ?>
 </body>
 </html>
