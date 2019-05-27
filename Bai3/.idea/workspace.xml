@@ -20,8 +20,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Bai3.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1020">
-              <caret line="60" column="1" lean-forward="true" selection-start-line="60" selection-start-column="1" selection-end-line="60" selection-end-column="1" />
+            <state relative-caret-position="155">
+              <caret line="32" column="25" lean-forward="true" selection-start-line="32" selection-start-column="25" selection-end-line="32" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -100,12 +100,12 @@
       <workItem from="1558492608856" duration="11090000" />
       <workItem from="1558513712848" duration="3406000" />
       <workItem from="1558589842994" duration="8618000" />
-      <workItem from="1558924221432" duration="49000" />
+      <workItem from="1558924221432" duration="1062000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23219000" />
+    <option name="totallyTimeSpent" value="24232000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -157,8 +157,8 @@
     <entry file="file://$PROJECT_DIR$/../Bai1update/Bai1.php" />
     <entry file="file://$PROJECT_DIR$/Bai3.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1020">
-          <caret line="60" column="1" lean-forward="true" selection-start-line="60" selection-start-column="1" selection-end-line="60" selection-end-column="1" />
+        <state relative-caret-position="155">
+          <caret line="32" column="25" lean-forward="true" selection-start-line="32" selection-start-column="25" selection-end-line="32" selection-end-column="25" />
         </state>
       </provider>
     </entry>
