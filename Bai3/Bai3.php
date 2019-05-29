@@ -50,12 +50,11 @@ if (isset($_POST['distribute'])) {
 }
 function rd_int($lenght)
 {
-    $min_num = pow(10, $lenght - 1);
+    $min_num= pow(10,$lenght-1);
     $max_num = pow(10, $lenght) - 1;
     $number = rand($min_num, $max_num);
     return (int)$number;
 }
-
 function rd_string($lenght)
 {
     $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';

@@ -39,7 +39,7 @@
                         }
                     }
                 }
-                function check($x)
+                function check($x) : bool
                 {
                     if($x<2)
                     {
