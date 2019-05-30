@@ -28,41 +28,40 @@ if (isset($_POST['ok'])) {
     $id = 0;
     for ($i = 0; $i < $input; $i++) {
         $info[$i] = array('ID' => $id++, 'Name' => $product[rand(0, 9)], 'Price' => rand(0, 10000), 'Quantity' => rand(0, 100), 'Order' => rand(0, 100));
-        $total = $info[$i]['Price'] * $info[$i]['Quantity'];
-        $info[$i]['Total'] = $total;
+        $info[$i]['Total'] = $info[$i]['Price'] * $info[$i]['Quantity'];
     }
-    echo output($info);
+    output($info);
     $_SESSION['info'] = $info;
 }
 if (isset($_POST['price_tang'])) {
     $array = $_SESSION['info'];
-    $info=sort_up($array,'Price');
-    echo output($info);
+    $info = sort_up($array, 'Price');
+    output($info);
 }
 if (isset($_POST['price_giam'])) {
     $array = $_SESSION['info'];
-    $info=sort_dow($array,'Price');
-    echo output($info);
+    $info = sort_dow($array, 'Price');
+    output($info);
 }
 if (isset($_POST['order_tang'])) {
     $array = $_SESSION['info'];
-    $info=sort_up($array,'Order');
-    echo output($info);
+    $info = sort_up($array, 'Order');
+    output($info);
 }
 if (isset($_POST['order_giam'])) {
     $array = $_SESSION['info'];
-    $info=sort_dow($array,'Order');
-    echo output($info);
+    $info = sort_dow($array, 'Order');
+    output($info);
 }
 if (isset($_POST['total_tang'])) {
     $array = $_SESSION['info'];
-    $info=sort_up($array,'Total');
-    echo output($info);
+    $info = sort_up($array, 'Total');
+    output($info);
 }
 if (isset($_POST['total_giam'])) {
     $array = $_SESSION['info'];
-    $info=sort_dow($array,'Total');
-    echo output($info);
+    $info = sort_dow($array, 'Total');
+    output($info);
 }
 function output($arr)
 {
@@ -74,7 +73,6 @@ function output($arr)
             <td>Price</td>
             <td>Quantity</td>
             <td>Order</td>
-            <td>Total</td>
         </tr>
         <?php
         echo "<tr>";
@@ -94,9 +92,6 @@ function output($arr)
             echo "<td>";
             echo $item['Order'];
             echo "</td>";
-            echo "<td>";
-            echo $item['Total'];
-            echo "</td>";
             echo "</tr>";
         }
         ?>
@@ -104,7 +99,7 @@ function output($arr)
     <?php
 }
 
-function sort_up($arr, $index) :array
+function sort_up($arr, $index): array
 {
     $spt = count($arr);
     for ($i = 0; $i < $spt - 1; $i++) {
@@ -118,7 +113,8 @@ function sort_up($arr, $index) :array
     }
     return $arr;
 }
-function sort_dow($arr, $index) :array
+
+function sort_dow($arr, $index): array
 {
     $spt = count($arr);
     for ($i = 0; $i < $spt - 1; $i++) {
@@ -132,6 +128,7 @@ function sort_dow($arr, $index) :array
     }
     return $arr;
 }
+
 ?>
 
 </body>
