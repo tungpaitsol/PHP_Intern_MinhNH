@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0553c421-ebef-4e83-992c-38d7e84f1936" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Bai4.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Bai2/Bai2.php" beforeDir="false" afterPath="$PROJECT_DIR$/../Bai2/Bai2.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Bai3/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Bai3/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Bai3/Bai3.php" beforeDir="false" afterPath="$PROJECT_DIR$/../Bai3/Bai3.php" afterDir="false" />
-    </list>
+    <list default="true" id="0553c421-ebef-4e83-992c-38d7e84f1936" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,8 +18,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Bai4.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
-              <caret line="28" column="12" lean-forward="true" selection-start-line="28" selection-start-column="12" selection-end-line="28" selection-end-column="12" />
+            <state relative-caret-position="1122">
+              <caret line="66" column="26" selection-start-line="66" selection-start-column="26" selection-end-line="66" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -33,6 +28,11 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="Bai3" />
+      </map>
+    </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -114,12 +114,12 @@
       <workItem from="1558930752609" duration="66000" />
       <workItem from="1558930824507" duration="18497000" />
       <workItem from="1559043003141" duration="1522000" />
-      <workItem from="1559095245161" duration="8724000" />
+      <workItem from="1559095245161" duration="9582000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28809000" />
+    <option name="totallyTimeSpent" value="29667000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -139,7 +139,7 @@
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Terminal" order="10" />
-      <window_info active="true" anchor="bottom" id="Event Log" order="11" side_tool="true" visible="true" weight="0.3289689" />
+      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" weight="0.3289689" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -166,8 +166,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Bai4.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="28" column="12" lean-forward="true" selection-start-line="28" selection-start-column="12" selection-end-line="28" selection-end-column="12" />
+        <state relative-caret-position="1122">
+          <caret line="66" column="26" selection-start-line="66" selection-start-column="26" selection-end-line="66" selection-end-column="26" />
         </state>
       </provider>
     </entry>

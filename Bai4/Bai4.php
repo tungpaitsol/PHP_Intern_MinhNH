@@ -9,107 +9,106 @@
 </head>
 <body>
 <form method="post" action="">
-    <h3>Nhập số lượng sản phẩm</h3>
-    <input type="text" name="input" value="<?php echo isset($_POST['input']) ? $_POST['input'] : '' ?>">
-    <input type="submit" name="Ok" value="OK">
-    <div>Sắp xếp theo :</div>
-    <div>Price:</div>
-    <input type="submit" name="price_tang" value="Tăng dần"><br>
-    <input type="submit" name="price_giam" value="Giảm dần"><br>
-    <div>Order:</div>
-    <input type="submit" name="order_tang" value="Tăng dần"><br>
-    <input type="submit" name="order_giam" value="Giảm dần"><br>
-    <div>Total :</div>
-    <input type="submit" name="total_tang" value="Tăng dần"><br>
-    <input type="submit" name="total_giam" value="Giảm dần">
-    <table>
-        <tr>
-            <td></td>
-        </tr>
-    </table>
+    <div align="center">
+        <input type="text" name="input" value="<?php echo isset($_POST['input']) ? $_POST['input'] : '' ?>">
+        <input type="submit" name="ok" value="OK"><br>
+        <input type="submit" name="price_tang" value="Tăng price">
+        <input type="submit" name="price_giam" value="Giảm price"><br>
+        <input type="submit" name="order_tang" value="Tăng Oder">
+        <input type="submit" name="order_giam" value="Giảm Oder"><br>
+        <input type="submit" name="total_tang" value="Tăng Total">
+        <input type="submit" name="total_giam" value="Giảm Total"><br>
+    </div>
+    <br>
 </form>
-<?php  session_start();
-$input = $_POST['input'] ? $_POST['input'] : '';
-$product = array('P_01', 'P_02', 'P_03', 'P_04', 'P_05', 'P_06', 'P_07', 'P_08', 'P_09', 'P_010');
-$size = count($product);
-$info = array();
-$id = 0;
-if (isset($_POST['Ok']) && isset($_POST['input']) && is_numeric($input)) {
-
+<?php session_start();
+$input = isset($_POST['input']) ? $_POST['input'] : '';
+if (isset($_POST['ok'])) {
+    $product = array('P_01', 'P_02', 'P_03', 'P_04', 'P_05', 'P_06', 'P_07', 'P_08', 'P_09', 'P_10');
+    $id = 0;
     for ($i = 0; $i < $input; $i++) {
-        $info[$i] = array('id' => $id++, 'name' => $product[rand(0, $size - 1)], 'price' => rand(0, 10000),
-            'quantity' => rand(0, 100), 'order' => rand(1, 100));
-        $total = $info[$i]['price'] * $info[$i]['quantity'];
-        $info[$i]['total'] = $total;
+        $info[$i] = array('ID' => $id++, 'Name' => $product[rand(0, 9)], 'Price' => rand(0, 10000), 'Quantity' => rand(0, 100), 'Order' => rand(0, 100));
+        $total = $info[$i]['Price'] * $info[$i]['Quantity'];
+        $info[$i]['Total'] = $total;
     }
+    echo output($info);
     $_SESSION['info'] = $info;
 }
-else
-{
-    echo "Input sai định dạng";
-}
-$arr = $_SESSION['info'];
 if (isset($_POST['price_tang'])) {
-    $_SESSION['info'] = sort_up($arr, 'price');
+    $array = $_SESSION['info'];
+    $info=sort_up($array,'Price');
+    echo output($info);
 }
 if (isset($_POST['price_giam'])) {
-    $_SESSION['info'] = sort_dow($arr, 'price');
+    $array = $_SESSION['info'];
+    $info=sort_dow($array,'Price');
+    echo output($info);
 }
 if (isset($_POST['order_tang'])) {
-    $_SESSION['info'] = sort_up($arr, 'order');
+    $array = $_SESSION['info'];
+    $info=sort_up($array,'Order');
+    echo output($info);
 }
 if (isset($_POST['order_giam'])) {
-    $_SESSION['info'] = sort_dow($arr, 'order');
+    $array = $_SESSION['info'];
+    $info=sort_dow($array,'Order');
+    echo output($info);
 }
 if (isset($_POST['total_tang'])) {
-    $_SESSION['info'] = sort_up($arr, 'total');
+    $array = $_SESSION['info'];
+    $info=sort_up($array,'Total');
+    echo output($info);
 }
 if (isset($_POST['total_giam'])) {
-    $_SESSION['info'] = sort_dow($arr, 'total');
+    $array = $_SESSION['info'];
+    $info=sort_dow($array,'Total');
+    echo output($info);
+}
+function output($arr)
+{
+    ?>
+    <table border="1px" align="center">
+        <tr>
+            <td>ID</td>
+            <td>Name</td>
+            <td>Price</td>
+            <td>Quantity</td>
+            <td>Order</td>
+            <td>Total</td>
+        </tr>
+        <?php
+        echo "<tr>";
+        foreach ($arr as $item) {
+            echo "<td>";
+            echo $item['ID'];
+            echo "</td>";
+            echo "<td>";
+            echo $item['Name'];
+            echo "</td>";
+            echo "<td>";
+            echo $item['Price'];
+            echo "</td>";
+            echo "<td>";
+            echo $item['Quantity'];
+            echo "</td>";
+            echo "<td>";
+            echo $item['Order'];
+            echo "</td>";
+            echo "<td>";
+            echo $item['Total'];
+            echo "</td>";
+            echo "</tr>";
+        }
+        ?>
+    </table>
+    <?php
 }
 
-?>
-<table border="1px">
-    <tr align="center">
-        <td>ID</td>
-        <td width="80px">Name</td>
-        <td width="80px">Price</td>
-        <td width="80px">Quantity</td>
-        <td width="80px">Oder</td>
-        <td width="80px">Total</td>
-    </tr>
-    <?php
-    foreach ($arr as $item) {
-        echo "<tr>";
-        echo "<td>";
-        echo $item['id'];
-        echo "</td>";
-        echo "<td>";
-        echo $item['name'];
-        echo "</td>";
-        echo "<td>";
-        echo $item['price'];
-        echo "</td>";
-        echo "<td>";
-        echo $item['quantity'];
-        echo "</td>";
-        echo "<td>";
-        echo $item['order'];
-        echo "</td>";
-        echo "<td>";
-        echo $item['total'];
-        echo "</td>";
-        echo "</tr>";
-    }
-    ?>
-</table>
-<?php
-function sort_up($arr, $index): array
+function sort_up($arr, $index) :array
 {
-    $tg = array();
-    $count = count($arr);
-    for ($i = 0; $i < ($count - 1); $i++) {
-        for ($j = ($i + 1); $j < $count; $j++) {
+    $spt = count($arr);
+    for ($i = 0; $i < $spt - 1; $i++) {
+        for ($j = $i + 1; $j < $spt; $j++) {
             if ($arr[$i][$index] > $arr[$j][$index]) {
                 $tg = $arr[$j];
                 $arr[$j] = $arr[$i];
@@ -119,13 +118,11 @@ function sort_up($arr, $index): array
     }
     return $arr;
 }
-
-function sort_dow($arr, $index)
+function sort_dow($arr, $index) :array
 {
-    $tg = array();
-    $count = count($arr);
-    for ($i = 0; $i < ($count - 1); $i++) {
-        for ($j = ($i + 1); $j < $count; $j++) {
+    $spt = count($arr);
+    for ($i = 0; $i < $spt - 1; $i++) {
+        for ($j = $i + 1; $j < $spt; $j++) {
             if ($arr[$i][$index] < $arr[$j][$index]) {
                 $tg = $arr[$j];
                 $arr[$j] = $arr[$i];
@@ -135,9 +132,7 @@ function sort_dow($arr, $index)
     }
     return $arr;
 }
-
 ?>
-
 
 </body>
 </html>
