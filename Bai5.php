@@ -24,26 +24,28 @@ if (isset($_POST['ok'])) {
         $info[$i] = array('ID' => $id++, 'Name' => $product[rand(0, 9)], 'Price' => rand(1, 10000),
             'Quantity' => rand(0, 100), 'Order' => rand(0, 100));
     }
-    output($info);
     $_SESSION['info'] = $info;
+    $_SESSION['init'] = $info;
 }
 if (isset($_POST['save'])) {
     $array = $_SESSION['info'];
+    $array_init=$_SESSION['init'];
     $change = $_POST['change'];
     for ($i = 0; $i < count($array); $i++) {
-        $array[$i]['Order'] = $change[$i];
+        if ($array_init[$i]['Order'] != $change[$i]) {
+            $array[$i]['Order'] = $change[$i];
+        }
     }
-    output($array);
+    //output($array);
     $_SESSION['info'] = $array;
 }
 if (isset($_POST['sort'])) {
     $array = $_SESSION['info'];
     $array = sort_up($array, 'Order');
-    $_SESSION['info'] =$array ;
-    output($array);
+    $_SESSION['info'] = $array;
+    //output($array);
 }
-function output($arr)
-{
+if (isset($_SESSION['info'])) {
     ?>
     <table border="1px" align="center">
         <tr>
@@ -57,7 +59,7 @@ function output($arr)
         <?php
         echo "<form method='post'>";
         echo "<tr>";
-        foreach ($arr as $item) {
+        foreach ($_SESSION['info'] as $item) {
             echo "<td>";
             echo $item['ID'];
             echo "</td>";
