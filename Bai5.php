@@ -32,12 +32,16 @@ if (isset($_POST['save'])) {
     $array_init=$_SESSION['init'];
     $change = $_POST['change'];
     for ($i = 0; $i < count($array); $i++) {
-        if ($array_init[$i]['Order'] != $change[$i]) {
+        if ($array_init[$i]['ID'] == $array[$i]['ID']) {
             $array[$i]['Order'] = $change[$i];
         }
     }
-    //output($array);
+//    //output($array);
     $_SESSION['info'] = $array;
+    echo "<pre>";
+    print_r($array);
+    print_r($array_init);
+
 }
 if (isset($_POST['sort'])) {
     $array = $_SESSION['info'];
