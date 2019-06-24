@@ -80,6 +80,11 @@ class Employee
     {
         return $this->_work_hour;
     }
+
+    function getHaslunchbreak()
+    {
+        return $this->_has_lunch_break;
+    }
 }
 
 class ListWorkTime
@@ -113,29 +118,24 @@ class ListWorkTime
 
 class Manage
 {
-    static function workday($employee, $listworktime, $type)
+    static function workday($employee, $listworktime)
     {
         foreach ($employee as $item) {
             $workday = 0;
             foreach ($listworktime as $item1) {
-                if ($type == 1) {
-                    $a = date('H:i:s', strtotime($item->getStartworktime()));
-                    $b = date('H:i:s', strtotime($item1->getStartDatetime()));
-                    $timedo = strtotime($item1->getEndDatetime()) - strtotime($item1->getStartDatetime());
-                    $time = 8 * 60 * 60;
-                    if ($item->getCode() === $item1->getMembercode()) {
-                        if (strtotime($a) >= strtotime($b) && $timedo >= $time)
-                            $workday += 1;
-                        else
-                            $workday += 0.5;
-                    }
+                $startworktime = date('H:i:s', strtotime($item->getStartworktime()));
+                $stardatetime = date('H:i:s', strtotime($item1->getStartDatetime()));
+                $timedo = strtotime($item1->getEndDatetime()) - strtotime($item1->getStartDatetime());
+                if ($item->getCode() == $item1->getMembercode() && $item->getHaslunchbreak() == 1) {
+                    $timeRegistered = 8 * 60 * 60;
+                    if (strtotime($startworktime) >= strtotime($stardatetime) && $timedo >= $timeRegistered)
+                        $workday += 1;
+                    else
+                        $workday += 0.5;
                 } else {
-                    $a = date('H:i:s', strtotime($item->getStartworktime()));
-                    $b = date('H:i:s', strtotime($item1->getStartDatetime()));
-                    $timedo = strtotime($item1->getEndDatetime()) - strtotime($item1->getStartDatetime());
-                    $time = 8 * 60 * 60 + 90 * 60;
-                    if ($item->getCode() === $item1->getMembercode()) {
-                        if (strtotime($a) >= strtotime($b) && $timedo >= $time)
+                    $timeRegistered = 8 * 60 * 60 + 90 * 60;
+                    if ($item->getCode() == $item1->getMembercode()) {
+                        if (strtotime($startworktime) >= strtotime($stardatetime) && $timedo >= $timeRegistered)
                             $workday += 1;
                         else
                             $workday += 0.5;
@@ -147,16 +147,16 @@ class Manage
     }
 }
 
-$fulltime = [];
+$employeeFulltime = [];
 for ($i = 0; $i < count($listMemberFullTime); $i++) {
-    $fulltime[$i] = new Employee($listMemberFullTime[$i]['code'], $listMemberFullTime[$i]['full_name'], $listMemberFullTime[$i]['age'],
+    $employeeFulltime[$i] = new Employee($listMemberFullTime[$i]['code'], $listMemberFullTime[$i]['full_name'], $listMemberFullTime[$i]['age'],
         $listMemberFullTime[$i]['gender'], $listMemberFullTime[$i]['marital_status'], $listMemberFullTime[$i]['total_work_time'],
         $listMemberFullTime[$i]['salary'], $listMemberFullTime[$i]['workdays'], $listMemberFullTime[$i]['start_work_time'],
         $listMemberFullTime[$i]['work_hour'], $listMemberFullTime[$i]['has_lunch_break']);
 }
-$parttime = [];
+$employeePartime = [];
 for ($i = 0; $i < count($listMemberPartTime); $i++) {
-    $parttime[$i] = new Employee($listMemberPartTime[$i]['code'], $listMemberPartTime[$i]['full_name'], $listMemberPartTime[$i]['age'],
+    $employeePartime[$i] = new Employee($listMemberPartTime[$i]['code'], $listMemberPartTime[$i]['full_name'], $listMemberPartTime[$i]['age'],
         $listMemberPartTime[$i]['gender'], $listMemberPartTime[$i]['marital_status'], $listMemberPartTime[$i]['total_work_time'],
         $listMemberPartTime[$i]['salary'], $listMemberPartTime[$i]['workdays'], $listMemberPartTime[$i]['start_work_time'],
         $listMemberPartTime[$i]['work_hour'], $listMemberPartTime[$i]['has_lunch_break']);
@@ -166,8 +166,8 @@ for ($i = 0; $i < count($listWorkTime); $i++) {
     $worktime[$i] = new ListWorkTime($listWorkTime[$i]['member_code'], $listWorkTime[$i]['start_datetime'], $listWorkTime[$i]['end_datetime']);
 }
 
-Manage::workday($fulltime, $worktime, 1);
-Manage::workday($parttime, $worktime, 0);
+Manage::workday($employeeFulltime, $worktime);
+Manage::workday($employeePartime, $worktime);
 
-print_r($fulltime);
-print_r($parttime);
+print_r($employeeFulltime);
+print_r($employeePartime);
