@@ -51,6 +51,7 @@ class Employee
         $this->_work_hour = $workhour;
     }
 
+
     function getCode()
     {
         return $this->_code;
@@ -80,7 +81,6 @@ class Employee
     {
         return $this->_work_hour;
     }
-
     function getHaslunchbreak()
     {
         return $this->_has_lunch_break;
@@ -121,28 +121,28 @@ class Manage
     static function workday($employee, $listworktime)
     {
         foreach ($employee as $item) {
-            $workday = 0;
+            $workdays = 0;
             foreach ($listworktime as $item1) {
-                $startworktime = date('H:i:s', strtotime($item->getStartworktime()));
-                $stardatetime = date('H:i:s', strtotime($item1->getStartDatetime()));
+                $startWorktimeRegistered = date('H:i:s', strtotime($item->getStartworktime()));
+                $currentStartWorkTime = date('H:i:s', strtotime($item1->getStartDatetime()));
                 $timedo = strtotime($item1->getEndDatetime()) - strtotime($item1->getStartDatetime());
                 if ($item->getCode() == $item1->getMembercode() && $item->getHaslunchbreak() == 1) {
                     $timeRegistered = 8 * 60 * 60;
-                    if (strtotime($startworktime) >= strtotime($stardatetime) && $timedo >= $timeRegistered)
-                        $workday += 1;
+                    if (strtotime($startWorktimeRegistered) >= strtotime($currentStartWorkTime) && $timedo >= $timeRegistered)
+                        $workdays += 1;
                     else
-                        $workday += 0.5;
+                        $workdays += 0.5;
                 } else {
                     $timeRegistered = 8 * 60 * 60 + 90 * 60;
                     if ($item->getCode() == $item1->getMembercode()) {
-                        if (strtotime($startworktime) >= strtotime($stardatetime) && $timedo >= $timeRegistered)
-                            $workday += 1;
+                        if (strtotime($startWorktimeRegistered) >= strtotime($currentStartWorkTime) && $timedo >= $timeRegistered)
+                            $workdays += 1;
                         else
-                            $workday += 0.5;
+                            $workdays += 0.5;
                     }
                 }
             }
-            $item->setWorkdays($workday);
+            $item->setWorkdays($workdays);
         }
     }
 }
@@ -171,3 +171,4 @@ Manage::workday($employeePartime, $worktime);
 
 print_r($employeeFulltime);
 print_r($employeePartime);
+
