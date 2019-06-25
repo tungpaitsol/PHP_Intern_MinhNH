@@ -32,24 +32,9 @@ class Employee
         $this->_has_lunch_break = $has_lunch_break;
     }
 
-    function setTotalworktime($totalworktime)
-    {
-        $this->_total_work_time = $totalworktime;
-    }
-
-    function setSalary($salary)
-    {
-        $this->_salary = $salary;
-    }
-
     function setWorkdays($workdays)
     {
         $this->_workdays = $workdays;
-    }
-
-    function setWorkhour($workhour)
-    {
-        $this->_work_hour = $workhour;
     }
 
     function setTotalSalary($totalsalary)
@@ -62,11 +47,6 @@ class Employee
         return $this->_code;
     }
 
-    function getTotalworktime()
-    {
-        return $this->_total_work_time;
-    }
-
     function getSalary()
     {
         return $this->_salary;
@@ -77,17 +57,17 @@ class Employee
         return $this->_workdays;
     }
 
-    function getStartworktime()
+    function getStartWorkTime()
     {
         return $this->_start_work_time;
     }
 
-    function getWorkhour()
+    function getWorkHour()
     {
         return $this->_work_hour;
     }
 
-    function getHaslunchbreak()
+    function getHasLunchBreak()
     {
         return $this->_has_lunch_break;
     }
@@ -95,37 +75,46 @@ class Employee
 
 class ListWorkTime
 {
-    private $_membercode;
-    private $_startdatetime;
-    private $_enddatetime;
+    private $_memberCode;
+    private $_startDateTime;
+    private $_endDateTime;
 
     function __construct($member_code, $start_datetime, $end_datetime)
     {
-        $this->_membercode = $member_code;
-        $this->_startdatetime = $start_datetime;
-        $this->_enddatetime = $end_datetime;
+        $this->_memberCode = $member_code;
+        $this->_startDateTime = $start_datetime;
+        $this->_endDateTime = $end_datetime;
     }
 
-    function getMembercode()
+    function getMemberCode()
     {
-        return $this->_membercode;
+        return $this->_memberCode;
     }
 
     function getStartDatetime()
     {
-        return $this->_startdatetime;
+        return $this->_startDateTime;
     }
 
     function getEndDatetime()
     {
-        return $this->_enddatetime;
+        return $this->_endDateTime;
     }
 }
 
 class Manage
 {
-    const listHoliday = array('2019-01-01', '2019-02-04', '2019-02-05', '2019-02-06', '2019-02-07', '2019-02-08',
-        '2019-04-15', '2019-04-30', '2019-05-01', '2019-09-02');
+    const listHoliday = array(
+        '2019-01-01',
+        '2019-02-04',
+        '2019-02-05',
+        '2019-02-06',
+        '2019-02-07',
+        '2019-02-08',
+        '2019-04-15',
+        '2019-04-30',
+        '2019-05-01',
+        '2019-09-02');
 
     static function workDays($employee, $listWorkTime)
     {
@@ -134,21 +123,21 @@ class Manage
             foreach ($listWorkTime as $item1) {
                 $startWorkTimeRegistered = date('H:i:s', strtotime($item->getStartworktime()));
                 $currentStartWorkTime = date('H:i:s', strtotime($item1->getStartDatetime()));
-                $timeDo = strtotime($item1->getEndDatetime()) - strtotime($item1->getStartDatetime());
-                if ($item->getCode() == $item1->getMembercode() && $item->getHaslunchbreak() == 1) {
-                    $timeRegistered = 8 * 60 * 60;
+                $currentEndWorkTime = date('H:i:s', strtotime($item1->getEndDatetime()));
+                $timeDo = strtotime($currentEndWorkTime) - strtotime($startWorkTimeRegistered);
+                if ($item->getCode() == $item1->getMemberCode() && $item->getHasLunchBreak() == 1) {
+                    $timeRegistered = $item->getWorkHour() * 60 * 60;
                     if (strtotime($startWorkTimeRegistered) >= strtotime($currentStartWorkTime) && $timeDo >= $timeRegistered)
                         $workdays += 1;
                     else
                         $workdays += 0.5;
-                } else {
-                    $timeRegistered = 8 * 60 * 60 + 90 * 60;
-                    if ($item->getCode() == $item1->getMembercode()) {
-                        if (strtotime($startWorkTimeRegistered) >= strtotime($currentStartWorkTime) && $timeDo >= $timeRegistered)
-                            $workdays += 1;
-                        else
-                            $workdays += 0.5;
-                    }
+                }
+                if ($item->getCode() == $item1->getMemberCode() && $item->getHasLunchBreak() == 0) {
+                    $timeRegistered = $item->getWorkHour() * 60 * 60 + 90 * 60;
+                    if (strtotime($startWorkTimeRegistered) >= strtotime($currentStartWorkTime) && $timeDo >= $timeRegistered)
+                        $workdays += 1;
+                    else
+                        $workdays += 0.5;
                 }
             }
             $item->setWorkdays($workdays);
@@ -157,14 +146,8 @@ class Manage
 
     static function checkDaysInMonth($month, $year): int
     {
-        if ($month == '01' || $month == '03' || $month == '05' || $month == '07' || $month == '08' || $month == '10' || $month == '12')
-            return $dayOfMonth = 31;
-        if ($month == '04' || $month == '06' || $month == '09' || $month == '11')
-            return $dayOfMonth = 30;
-        if ($month == '02' && $year % 100 != 0 && $year % 4 == 0) {
-            return $dayOfMonth = 29;
-        } else
-            return $dayOfMonth = 28;
+        $daysInMonth = date('t', strtotime("$year-$month"));
+        return $daysInMonth;
     }
 
     static function checkDaysOff($listWorkTime): int
@@ -228,4 +211,3 @@ Manage::totalSalary($employeePartTime, $workTime);
 
 print_r($employeeFullTime);
 print_r($employeePartTime);
-
