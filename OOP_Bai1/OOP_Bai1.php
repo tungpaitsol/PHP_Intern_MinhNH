@@ -32,14 +32,14 @@ class Employee
         $this->_has_lunch_break = $has_lunch_break;
     }
 
-    function setWorkdays($workdays)
+    function setWorkDays($workdays)
     {
         $this->_workdays = $workdays;
     }
 
-    function setTotalSalary($totalsalary)
+    function setTotalSalary($totalSalary)
     {
-        $this->_total_salary = $totalsalary;
+        $this->_total_salary = $totalSalary;
     }
 
     function getCode()
@@ -116,48 +116,44 @@ class Manage
         '2019-05-01',
         '2019-09-02');
 
-    static function workDays($employee, $listWorkTime)
+    static function setWorkDay($employee, $listWorkTime)
     {
-        foreach ($employee as $item) {
-            $workdays = 0;
-            foreach ($listWorkTime as $item1) {
-                $startWorkTimeRegistered = date('H:i:s', strtotime($item->getStartworktime()));
-                $currentStartWorkTime = date('H:i:s', strtotime($item1->getStartDatetime()));
-                $currentEndWorkTime = date('H:i:s', strtotime($item1->getEndDatetime()));
+        foreach ($employee as $member) {
+            $workDays = 0;
+            foreach ($listWorkTime as $workTime) {
+                $startWorkTimeRegistered = date('H:i:s', strtotime($member->getStartworktime()));
+                $currentStartWorkTime = date('H:i:s', strtotime($workTime->getStartDatetime()));
+                $currentEndWorkTime = date('H:i:s', strtotime($workTime->getEndDatetime()));
                 $timeDo = strtotime($currentEndWorkTime) - strtotime($startWorkTimeRegistered);
-                if ($item->getCode() == $item1->getMemberCode() && $item->getHasLunchBreak() == 1) {
-                    $timeRegistered = $item->getWorkHour() * 60 * 60;
+                if ($member->getCode() == $workTime->getMemberCode() && $member->getHasLunchBreak() == true) {
+                    $timeRegistered = $member->getWorkHour() * 60 * 60;
                     if (strtotime($startWorkTimeRegistered) >= strtotime($currentStartWorkTime) && $timeDo >= $timeRegistered)
-                        $workdays += 1;
+                        $workDays += 1;
                     else
-                        $workdays += 0.5;
+                        $workDays += 0.5;
                 }
-                if ($item->getCode() == $item1->getMemberCode() && $item->getHasLunchBreak() == 0) {
-                    $timeRegistered = $item->getWorkHour() * 60 * 60 + 90 * 60;
+                if ($member->getCode() == $workTime->getMemberCode() && $member->getHasLunchBreak() == false) {
+                    $timeRegistered = $member->getWorkHour() * 60 * 60 + 90 * 60;
                     if (strtotime($startWorkTimeRegistered) >= strtotime($currentStartWorkTime) && $timeDo >= $timeRegistered)
-                        $workdays += 1;
+                        $workDays += 1;
                     else
-                        $workdays += 0.5;
+                        $workDays += 0.5;
                 }
             }
-            $item->setWorkdays($workdays);
+            $member->setWorkDays($workDays);
         }
     }
 
-    static function checkDaysInMonth($month, $year): int
+    static function getDaysInMonth($month, $year): int
     {
         $daysInMonth = date('t', strtotime("$year-$month"));
         return $daysInMonth;
     }
 
-    static function checkDaysOff($listWorkTime): int
+    static function getDaysOff($month, $year): int
     {
         $dayOff = 0;
-        for ($i = 0; $i < count($listWorkTime); $i++) {
-            $month = date('m', strtotime($listWorkTime[$i]->getStartDatetime()));
-            $year = date('Y', strtotime($listWorkTime[$i]->getStartDatetime()));
-        }
-        for ($i = 1; $i <= self::checkDaysInMonth($month, $year); $i++) {
+        for ($i = 1; $i <= self::getDaysInMonth($month, $year); $i++) {
             $dateTime = $year . "-" . $month . "-" . $i;
             $day = date('D', strtotime($dateTime));
             if ($day == 'Sat' || $day == 'Sun') {
@@ -172,15 +168,11 @@ class Manage
         return $dayOff;
     }
 
-    static function totalSalary($employee, $listWorkTime)
+    static function setTotalSalaryInMonth($employee, $month, $year)
     {
-        foreach ($employee as $item) {
-            foreach ($listWorkTime as $item1) {
-                $month = date('m', strtotime($item1->getStartDatetime()));
-                $year = date('Y', strtotime($item1->getStartDatetime()));
-            }
-            $currentWorkDays = self::checkDaysInMonth($month, $year) - self::checkDaysOff($listWorkTime);
-            $item->setTotalSalary($item->getWorkdays() / $currentWorkDays * $item->getSalary());
+        foreach ($employee as $member) {
+            $currentWorkDays = self::getDaysInMonth($month, $year) - self::getDaysOff($month, $year);
+            $member->setTotalSalary($member->getWorkdays() / $currentWorkDays * $member->getSalary());
         }
     }
 }
@@ -204,10 +196,10 @@ for ($i = 0; $i < count($listWorkTime); $i++) {
     $workTime[$i] = new ListWorkTime($listWorkTime[$i]['member_code'], $listWorkTime[$i]['start_datetime'], $listWorkTime[$i]['end_datetime']);
 }
 
-Manage::workDays($employeeFullTime, $workTime);
-Manage::workDays($employeePartTime, $workTime);
-Manage::totalSalary($employeeFullTime, $workTime);
-Manage::totalSalary($employeePartTime, $workTime);
+Manage::setWorkDay($employeeFullTime, $workTime);
+Manage::setWorkDay($employeePartTime, $workTime);
+Manage::setTotalSalaryInMonth($employeeFullTime, 06, 2019);
+Manage::setTotalSalaryInMonth($employeePartTime, 06, 2019);
 
 print_r($employeeFullTime);
 print_r($employeePartTime);
