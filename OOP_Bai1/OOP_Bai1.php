@@ -127,7 +127,7 @@ class Manage
                 $timeDo = strtotime($currentEndWorkTime) - strtotime($startWorkTimeRegistered);
                 if ($member->getCode() !== $workTime->getMemberCode())
                     continue;
-                if ($member->getHasLunchBreak() == true) {
+                if ($member->getHasLunchBreak()) {
                     $timeRegistered = $member->getWorkHour() * 60 * 60;
                 } else
                     $timeRegistered = $member->getWorkHour() * 60 * 60 + 90 * 60;
