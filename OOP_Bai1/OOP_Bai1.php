@@ -125,22 +125,16 @@ class Manage
                 $currentStartWorkTime = date('H:i:s', strtotime($workTime->getStartDatetime()));
                 $currentEndWorkTime = date('H:i:s', strtotime($workTime->getEndDatetime()));
                 $timeDo = strtotime($currentEndWorkTime) - strtotime($startWorkTimeRegistered);
-                if ($member->getCode() == $workTime->getMemberCode() && $member->getHasLunchBreak() == true) {
-                    if ($member->getCode() !== $workTime->getMemberCode())
-                        continue;
+                if ($member->getCode() !== $workTime->getMemberCode())
+                    continue;
+                if ($member->getHasLunchBreak() == true) {
                     $timeRegistered = $member->getWorkHour() * 60 * 60;
-                    if (strtotime($startWorkTimeRegistered) >= strtotime($currentStartWorkTime) && $timeDo >= $timeRegistered)
-                        $workDays += 1;
-                    else
-                        $workDays += 0.5;
-                }
-                if ($member->getCode() == $workTime->getMemberCode() && $member->getHasLunchBreak() == false) {
+                } else
                     $timeRegistered = $member->getWorkHour() * 60 * 60 + 90 * 60;
-                    if (strtotime($startWorkTimeRegistered) >= strtotime($currentStartWorkTime) && $timeDo >= $timeRegistered)
-                        $workDays += 1;
-                    else
-                        $workDays += 0.5;
-                }
+                if (strtotime($startWorkTimeRegistered) >= strtotime($currentStartWorkTime) && $timeDo >= $timeRegistered)
+                    $workDays += 1;
+                else
+                    $workDays += 0.5;
             }
             $member->setWorkDays($workDays);
         }
