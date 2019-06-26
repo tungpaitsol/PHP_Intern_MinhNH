@@ -126,6 +126,8 @@ class Manage
                 $currentEndWorkTime = date('H:i:s', strtotime($workTime->getEndDatetime()));
                 $timeDo = strtotime($currentEndWorkTime) - strtotime($startWorkTimeRegistered);
                 if ($member->getCode() == $workTime->getMemberCode() && $member->getHasLunchBreak() == true) {
+                    if ($member->getCode() !== $workTime->getMemberCode())
+                        continue;
                     $timeRegistered = $member->getWorkHour() * 60 * 60;
                     if (strtotime($startWorkTimeRegistered) >= strtotime($currentStartWorkTime) && $timeDo >= $timeRegistered)
                         $workDays += 1;
