@@ -191,11 +191,9 @@ $workTime = [];
 for ($i = 0; $i < count($listWorkTime); $i++) {
     $workTime[$i] = new ListWorkTime($listWorkTime[$i]['member_code'], $listWorkTime[$i]['start_datetime'], $listWorkTime[$i]['end_datetime']);
 }
-
 Manage::setWorkDay($employeeFullTime, $workTime);
 Manage::setWorkDay($employeePartTime, $workTime);
 Manage::setTotalSalaryInMonth($employeeFullTime, 06, 2019);
 Manage::setTotalSalaryInMonth($employeePartTime, 06, 2019);
-
 print_r($employeeFullTime);
 print_r($employeePartTime);
