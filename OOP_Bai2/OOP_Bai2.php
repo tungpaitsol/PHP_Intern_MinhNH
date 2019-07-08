@@ -65,7 +65,7 @@ class Locale
      */
     static function getLanguage($index, $lang = 'eng')
     {
-        $fp = file($lang . '.txt');
+        $fp = file('Language_folder/' . $lang . '.txt');
         for ($i = 0; $i < count($fp); $i++) {
             $current = explode("=", $fp[$i]);
             $key[$i] = $current[0];
