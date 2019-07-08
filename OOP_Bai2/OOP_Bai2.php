@@ -58,7 +58,6 @@ class Locale
         return self::$instance;
     }
 
-
     /**
      * @param string $index
      * @param string $lang
@@ -66,9 +65,6 @@ class Locale
      */
     static function getLanguage($index, $lang = 'eng')
     {
-        if ($_SESSION['lang']) {
-            $lang = $_SESSION['lang'];
-        }
         $fp = file($lang . '.txt');
         for ($i = 0; $i < count($fp); $i++) {
             $current = explode("=", $fp[$i]);
@@ -109,7 +105,7 @@ echo Locale::getLanguage('name', $lang);
         <div class="form-group">
             <div class="row">
                 <div class="col-xs-6"><input type="text" class="form-control" name="first_name"
-                                             placeholder="<?php echo Locale::getLanguage('firstName', $lang); ?>"
+                                             placeholder="<?php echo Locale::getLanguage('firstName'); ?>"
                                              required="required"></div>
                 <div class="col-xs-6"><input type="text" class="form-control" name="last_name"
                                              placeholder="<?php echo Locale::getLanguage('lastName', $lang); ?>"
@@ -143,21 +139,3 @@ echo Locale::getLanguage('name', $lang);
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
