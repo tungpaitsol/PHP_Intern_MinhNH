@@ -58,6 +58,7 @@ class Locale
         return self::$instance;
     }
 
+
     /**
      * @param string $index
      * @param string $lang
