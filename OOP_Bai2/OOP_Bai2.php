@@ -25,27 +25,72 @@ class Language
         return $this->_code;
     }
 
+    private $_value;
+
+    function getValue()
+    {
+        return $this->_value;
+    }
+
+    function __construct($code, $value)
+    {
+        $this->_code = $code;
+        $this->_value = $value;
+    }
+}
+
+class Locale
+{
+    private static $instance;
+    private static $currentLanguage;
+
+    /**
+     * @param string $value
+     * @param string $lang
+     * @return Language
+     */
+    static function getInstance($value, $lang)
+    {
+        if (!self::$instance || $lang != self::$currentLanguage) {
+            self::$instance = new Language($lang, $value);
+            self::$currentLanguage = $lang;
+        }
+        return self::$instance;
+    }
+
+    /**
+     * @param string $index
+     * @param string $lang
+     * @return string
+     */
     static function getLanguage($index, $lang = 'eng')
     {
+        if ($_SESSION['lang']) {
+            $lang = $_SESSION['lang'];
+        }
         $fp = file($lang . '.txt');
         for ($i = 0; $i < count($fp); $i++) {
             $current = explode("=", $fp[$i]);
             $key[$i] = $current[0];
             $value[$i] = str_replace('"', '', $current[1]);
-            $language = array_combine($key, $value);
+            $array = array_combine($key, $value);
         }
-        return $language[$index];
+        $language = self::getInstance($array, $lang);
+        if (isset($language->getValue()[$index])) {
+
+            return $language->getValue()[$index];
+
+        }
+        return $index;
     }
 }
 
-if (!isset($_GET['lang'])) {
-    $_GET['lang'] = "eng";
-}
-if (isset($_GET['lang']))
+if (isset($_GET['lang'])) {
     $_SESSION['lang'] = $_GET['lang'];
-
+    $lang = $_SESSION['lang'];
+}
 $lang = $_SESSION['lang'];
-echo Language::getLanguage('name', $lang);
+echo Locale::getLanguage('name', $lang);
 ?>
 <form method="get">
     <div id="m1">
@@ -57,36 +102,36 @@ echo Language::getLanguage('name', $lang);
 </form>
 <div class="signup-form">
 
-    <form action="/examples/actions/confirmation.php" method="post">
-        <h2><?php echo Language::getLanguage('register', $lang) ?></h2>
-        <p class="hint-text"><?php echo Language::getLanguage('create', $lang); ?></p>
+    <form method="post">
+        <h2><?php echo Locale::getLanguage('register', $lang) ?></h2>
+        <p class="hint-text"><?php echo Locale::getLanguage('create', $lang); ?></p>
         <div class="form-group">
             <div class="row">
                 <div class="col-xs-6"><input type="text" class="form-control" name="first_name"
-                                             placeholder="<?php echo Language::getLanguage('firstName', $lang); ?>"
+                                             placeholder="<?php echo Locale::getLanguage('firstName', $lang); ?>"
                                              required="required"></div>
                 <div class="col-xs-6"><input type="text" class="form-control" name="last_name"
-                                             placeholder="<?php echo Language::getLanguage('lastName', $lang); ?>"
+                                             placeholder="<?php echo Locale::getLanguage('lastName', $lang); ?>"
                                              required="required"></div>
             </div>
         </div>
         <div class="form-group">
             <input type="email" class="form-control" name="email"
-                   placeholder="<?php echo Language::getLanguage('email', $lang); ?>" required="required">
+                   placeholder="<?php echo Locale::getLanguage('email', $lang); ?>" required="required">
         </div>
         <div class="form-group">
             <input type="password" class="form-control" name="password"
-                   placeholder="<?php echo Language::getLanguage('passWord', $lang); ?>" required="required">
+                   placeholder="<?php echo Locale::getLanguage('passWord', $lang); ?>" required="required">
         </div>
         <div class="form-group">
             <input type="password" class="form-control" name="confirm_password"
-                   placeholder="<?php echo Language::getLanguage('conFirm'); ?>" required="required">
+                   placeholder="<?php echo Locale::getLanguage('conFirm'); ?>" required="required">
         </div>
         <div class="form-group">
             <label class="checkbox-inline"><input type="checkbox"
-                                                  required="required"><?php echo Language::getLanguage('conFirm', $lang); ?>
-                <a href="#"><?php echo Language::getLanguage('terms1', $lang); ?></a> &amp;
-                <a href="#"><?php echo Language::getLanguage('Privacy', $lang); ?></a></label>
+                                                  required="required"><?php echo Locale::getLanguage('conFirm', $lang); ?>
+                <a href="#"><?php echo Locale::getLanguage('terms1', $lang); ?></a> &amp;
+                <a href="#"><?php echo Locale::getLanguage('Privacy', $lang); ?></a></label>
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-success btn-lg btn-block">Register Now</button>
