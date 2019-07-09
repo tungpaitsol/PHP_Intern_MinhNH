@@ -116,21 +116,24 @@ class Manage
         '2019-05-01',
         '2019-09-02');
 
-    static function setWorkDay($employee, $listWorkTime)
+    static function setWorkDay($employee, $listWorkTime, $month)
     {
         foreach ($employee as $member) {
             $workDays = 0;
             foreach ($listWorkTime as $workTime) {
                 $startWorkTimeRegistered = date('H:i:s', strtotime($member->getStartworktime()));
                 $currentStartWorkTime = date('H:i:s', strtotime($workTime->getStartDatetime()));
+                $currentMonthStartWorkTime = date('m', strtotime($workTime->getStartDatetime()));
                 $currentEndWorkTime = date('H:i:s', strtotime($workTime->getEndDatetime()));
                 $timeDo = strtotime($currentEndWorkTime) - strtotime($startWorkTimeRegistered);
-                if ($member->getCode() !== $workTime->getMemberCode())
+                if ($member->getCode() != $workTime->getMemberCode())
+                    continue;
+                if ($currentMonthStartWorkTime != $month)
                     continue;
                 if ($member->getHasLunchBreak()) {
-                    $timeRegistered = $member->getWorkHour() * 60 * 60;
-                } else
                     $timeRegistered = $member->getWorkHour() * 60 * 60 + 90 * 60;
+                } else
+                    $timeRegistered = $member->getWorkHour() * 60 * 60;
                 if (strtotime($startWorkTimeRegistered) >= strtotime($currentStartWorkTime) && $timeDo >= $timeRegistered)
                     $workDays += 1;
                 else
@@ -191,8 +194,8 @@ $workTime = [];
 for ($i = 0; $i < count($listWorkTime); $i++) {
     $workTime[$i] = new ListWorkTime($listWorkTime[$i]['member_code'], $listWorkTime[$i]['start_datetime'], $listWorkTime[$i]['end_datetime']);
 }
-Manage::setWorkDay($employeeFullTime, $workTime);
-Manage::setWorkDay($employeePartTime, $workTime);
+Manage::setWorkDay($employeeFullTime, $workTime, 06);
+Manage::setWorkDay($employeePartTime, $workTime, 06);
 Manage::setTotalSalaryInMonth($employeeFullTime, 06, 2019);
 Manage::setTotalSalaryInMonth($employeePartTime, 06, 2019);
 print_r($employeeFullTime);
