@@ -21,19 +21,27 @@ foreach ($allBill as $bill) {
     echo "* List Employee *:" . "<br>";
     foreach ($allBillStaffInfo as $billStaffInfo) {
         foreach ($allMember as $member) {
+            $serviceMoney = 0;
             if ($bill->getCode() != $billStaffInfo->getBillCode())
                 continue;
             if ($member->getCode() != $billStaffInfo->getMemberCode())
                 continue;
+            $serviceMoney += $billStaffInfo->getServiceMoney();
             echo "Full Name: " . $member->getFullName() . " -- ";
             echo "Start Working : " . $billStaffInfo->getStartDateTime() . " -- ";
-            echo "End Working : " . $billStaffInfo->getEndDateTime() . "<br>";
+            echo "End Working : " . $billStaffInfo->getEndDateTime() . " -- ";
+            echo "Service Money : " . number_format($serviceMoney) . " ¥" . "<br>";
 
         }
     }
     echo "Tax : " . $bill->getTax() . " %" . "<br>";
     echo "Voucher :" . $bill->getVoucher() . " %" . "<br>";
-    echo "Total Food Money = " . $bill->getTotalFoodMoney() . "<br>";
-    echo "Total Service Money = " . $bill->getTotalServiceMoney() . "<br>";
-    echo "Total = " . $bill->getTotalMoney() . "<br>" . "<br>";
+    echo "Total Food Money = " . number_format($bill->getTotalFoodMoney()) . " ¥" . "<br>";
+    echo "Total Service Money = " . number_format($bill->getTotalServiceMoney()) . " ¥" . "<br>";
+    echo "Total = " . number_format($bill->getTotalMoney()) . " ¥" . "<br>" . "<br>";
+}
+echo "=========================Salary Employee In Month=======================" . "<br>";
+foreach ($allMember as $member) {
+    echo "Full Name : " . $member->getFullName() . "<br>";
+    echo "Salary : " . number_format($member->getSalary(),3,',','.')." ¥" . "<br>";
 }
